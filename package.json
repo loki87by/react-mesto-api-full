@@ -1,0 +1,63 @@
+{
+  "name": "mesto-express",
+  "version": "0.3.3",
+  "private": true,
+  "homepage": "https://loki87by.github.io/mesto-express/",
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "^3.4.3",
+    "validator": "^13.1.17"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "eslint": "^7.8.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-react": "^7.20.6",
+    "gh-pages": "^3.1.0",
+    "nodemon": "^2.0.4"
+  },
+  "description": "Данный проект является реализацией старого проекта: [https://loki87by.github.io/mesto/], с той лишь разницей, что данный проект реализован на реакте. Пока весь функционал старого проекта не реализован, но будет пополняться и расширяться по мере изучения материала. Как уже был дополнен возможностью взаимодействия пользователя с сервером. Ссылка на просмотр проекта на гитхабе: [https://loki87by.github.io/mesto-react/] Ссылка на репозиторий: [https://github.com/loki87by/mesto-react] Спасибо за внимание.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loki87by/express-mesto.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/loki87by/express-mesto/issues"
+  }
+}
