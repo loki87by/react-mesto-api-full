@@ -5,7 +5,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const BadRequestError = require('../errors/badRequest');
+// const BadRequestError = require('../errors/badRequest');
 const NotFoundError = require('../errors/notFoundErr');
 
 // **список пользователей
@@ -52,35 +52,35 @@ module.exports.createUser = (req, res) => {
 
 // **изменение юзердаты
 // *обновление текстовой инфы
-module.exports.updateUser = (req, res) => {
+module.exports.updateUser = (req, res, next) => {
   const { name, about } = req.body;
   User.findByIdAndUpdate(req.user._id, { name, about },
     { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
-        res.status(404).send({ message: 'Нет такого пользователя' });
-        return;
+        throw new NotFoundError('Нет пользователя с таким id');
       } else {
         res.send({ data: user });
       }
     })
-    .catch((err) => res.status(err.message ? 400 : 500).send({ message: err.message || 'На сервере произошла ошибка' }));
+    .catch((err) => next(err));
+  /* res.status(err.message ? 400 : 500)
+  .send({ message: err.message || 'На сервере произошла ошибка' })); */
 };
 
 // *обновление аватара
-module.exports.updateAvatar = (req, res) => {
+module.exports.updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
-  User.findByIdAndUpdate(req.user._id, { avatar },
+  return User.findByIdAndUpdate(req.params._id, { avatar },
     { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
-        res.status(404).send({ message: 'Нет такого пользователя' });
-        return;
+        throw new NotFoundError('Нет пользователя с таким id');
       } else {
         res.send({ data: user });
       }
     })
-    .catch((err) => res.status(err.message ? 400 : 500).send({ message: err.message || 'На сервере произошла ошибка' }));
+    .catch((err) => next(err));
 };
 
 module.exports.login = (req, res) => {
@@ -94,20 +94,3 @@ module.exports.login = (req, res) => {
       res.status(401).send({ message: err.message });
     });
 };
-/* User.findOne({ email })
-  .then((user) => {
-    if (!user) {
-      return Promise.reject(new Error('Неправильные почта или пароль'));
-    }
-    return bcrypt.compare(password, user.password);
-  })
-  .then((matched) => {
-    if (!matched) {
-      return Promise.reject(new Error('Неправильные почта или пароль'));
-    }
-    res.send({ message: 'Всё верно!' });
-  })
-  .catch((err) => {
-    res.status(401).send({ message: err.message });
-  });
-}; */
