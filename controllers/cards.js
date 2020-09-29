@@ -1,9 +1,9 @@
-const BadRequestError = require('../errors/badRequest');
-const NotFoundError = require('../errors/notFoundErr');
 /* eslint-disable no-else-return */
 /* eslint-disable no-useless-return */
-// **импорт модели
+// **импорты
 const Card = require('../models/card');
+const BadRequestError = require('../errors/badRequest');
+const NotFoundError = require('../errors/notFoundErr');
 
 // **создание карточки
 module.exports.createCard = (req, res, next) => {
@@ -19,13 +19,6 @@ module.exports.createCard = (req, res, next) => {
       res.send({ data: card });
     })
     .catch((err) => next(err));
-  /*  // eslint-disable-next-line quotes
-       if (err.name === "ValidationError") {
-        res.status(400).send({ message: 'Переданы некорректные данные' });
-      } else {
-        res.status(500).send({ message: 'На сервере произошла ошибка' });
-      }
-    }); */
 };
 
 // **список карточек
@@ -43,52 +36,42 @@ module.exports.deleteCard = (req, res, next) => {
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Такая карточка отсутствует в базе');
-        // res.status(404).send({ message: 'Такая карточка отсутствует в базе' });
-        // return;
       } else {
         res.send(card);
       }
     })
     .catch((err) => next(err));
-  /* res.status(err.message ? 404 : 500)
-     .send({ message: err.message || 'На сервере произошла ошибка' })); */
 };
 
 // **дополнительные действия с карточками
 // *лайк
 module.exports.likeCard = (req, res, next) => {
-  Card.findByIdAndUpdate(req.params.cardId,
+  const { id } = req.params;
+  return Card.findOneAndUpdate({ id },
     { $addToSet: { likes: req.user._id } },
     { new: true })
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Неверный запрос');
-      /*  res.status(404).send({ message: 'Неверный запрос' });
-        return; */
       } else {
         res.send({ data: card });
       }
     })
     .catch((err) => next(err));
-  /* res.status(err.message ? 400 : 500)
-  .send({ message: err.message || 'На сервере произошла ошибка' })); */
 };
 
-// *дислайк
+// *дизлайк
 module.exports.dislikeCard = (req, res, next) => {
-  Card.findByIdAndUpdate(req.params.cardId,
+  const { id } = req.params;
+  return Card.findOneAndUpdate({ id },
     { $pull: { likes: req.user._id } },
     { new: true })
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Неверный запрос');
-        /* res.status(404).send({ message: 'Неверный запрос' });
-        return; */
       } else {
         res.send({ data: card });
       }
     })
     .catch((err) => next(err));
-  /* res.status(err.message ? 400 : 500)
-    .send({ message: err.message || 'На сервере произошла ошибка' })); */
 };

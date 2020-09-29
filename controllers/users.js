@@ -1,11 +1,10 @@
 /* eslint-disable no-else-return */
 /* eslint-disable no-useless-return */
 /* eslint-disable quotes */
-// **импорт модели
+// **импорты
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-// const BadRequestError = require('../errors/badRequest');
 const NotFoundError = require('../errors/notFoundErr');
 
 // **список пользователей
@@ -29,9 +28,6 @@ module.exports.getCurrentUser = (req, res) => {
 
 // **новый пользователь
 module.exports.createUser = (req, res) => {
-  /*  const {
-    email, password, name, about, avatar = req.user._id,
-  } = req.body; */
   bcrypt.hash(req.body.password, 10)
     .then((hash) => User.create({
       email: req.body.email,
@@ -54,7 +50,8 @@ module.exports.createUser = (req, res) => {
 // *обновление текстовой инфы
 module.exports.updateUser = (req, res, next) => {
   const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, about },
+  const { id } = req.params;
+  return User.findOneAndUpdate({ id }, { name, about },
     { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
@@ -64,14 +61,13 @@ module.exports.updateUser = (req, res, next) => {
       }
     })
     .catch((err) => next(err));
-  /* res.status(err.message ? 400 : 500)
-  .send({ message: err.message || 'На сервере произошла ошибка' })); */
 };
 
 // *обновление аватара
 module.exports.updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
-  return User.findByIdAndUpdate(req.params._id, { avatar },
+  const { id } = req.params;
+  return User.findOneAndUpdate({ id }, { avatar },
     { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
@@ -83,6 +79,7 @@ module.exports.updateAvatar = (req, res, next) => {
     .catch((err) => next(err));
 };
 
+// **логин
 module.exports.login = (req, res) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)

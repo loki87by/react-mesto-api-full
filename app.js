@@ -3,13 +3,11 @@ const express = require('express');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-// const router = require('express').Router();
-// const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const cardRouter = require('./routes/cardRouter');
 const userRouter = require('./routes/userRouter');
 const { pattern } = require('./routes/pattern');
-// const { login, createUser } = require('./controllers/users');
+const { login, createUser } = require('./controllers/users');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -26,7 +24,8 @@ mongoose.connect('mongodb://localhost:27017/mestodb-14', {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/', userRouter);
+app.post('/signup', createUser);
+app.post('/signin', login);
 app.use(auth);
 app.use('/cards', cardRouter);
 app.use('/users', userRouter);
