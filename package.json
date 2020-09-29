@@ -1,6 +1,6 @@
 {
   "name": "mesto-express",
-  "version": "0.3.3",
+  "version": "0.5.1",
   "private": true,
   "homepage": "https://loki87by.github.io/mesto-express/",
   "dependencies": {

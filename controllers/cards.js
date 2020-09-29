@@ -31,11 +31,11 @@ module.exports.getAllCards = (req, res) => {
 
 // **удаление карточки
 module.exports.deleteCard = (req, res, next) => {
-  Card.findByIdAndRemove(req.params.id)
-    .populate('user')
+  const owner = req.user._id;
+  Card.findOneAndRemove({ _id: req.params.id, owner })
     .then((card) => {
       if (!card) {
-        throw new NotFoundError('Такая карточка отсутствует в базе');
+        throw new NotFoundError('Такая карточка отсутствует в базе либо у вас нет прав на удаление');
       } else {
         res.send(card);
       }
