@@ -1,13 +1,47 @@
 /* eslint-disable object-curly-newline */
 // **импорты
 const userRouter = require('express').Router();
+const { celebrate, Joi } = require('celebrate');
 const { getUsers, getCurrentUser, updateUser, updateAvatar } = require('../controllers/users');
 
 // **роуты
-userRouter.get('/', getUsers);
-userRouter.get('/:id', getCurrentUser);
-userRouter.patch('/me', updateUser);
-userRouter.patch('/me/avatar', updateAvatar);
+userRouter.get('/', celebrate({
+  headers: Joi.object().keys({
+    authorization: Joi.string().pattern(new RegExp('^Bearer +')),
+  }).unknown(true),
+}), getUsers);
+userRouter.get('/:id', celebrate({
+  headers: Joi.object().keys({
+    authorization: Joi.string().pattern(new RegExp('^Bearer +')),
+  }).unknown(true),
+  params: Joi.object().keys({
+    id: Joi.string().alphanum(),
+  }),
+}), getCurrentUser);
+userRouter.patch('/me', celebrate({
+  headers: Joi.object().keys({
+    authorization: Joi.string().pattern(new RegExp('^Bearer +')),
+  }).unknown(true),
+  params: Joi.object().keys({
+    id: Joi.string().alphanum(),
+  }),
+  body: Joi.object().keys({
+    name: Joi.string().required().min(2).max(30),
+    about: Joi.string().required().min(2).max(30),
+  }),
+}), updateUser);
+userRouter.patch('/me/avatar', celebrate({
+  headers: Joi.object().keys({
+    authorization: Joi.string().pattern(new RegExp('^Bearer +')),
+  }).unknown(true),
+  params: Joi.object().keys({
+    id: Joi.string().alphanum(),
+  }),
+  body: Joi.object().keys({
+    // eslint-disable-next-line no-useless-escape
+    avatar: Joi.string().pattern(new RegExp('https?:\/{2}\\S+\\.(jpg|png|gif|svg)')).required(),
+  }),
+}), updateAvatar);
 
 // **экспорт
 module.exports = userRouter;

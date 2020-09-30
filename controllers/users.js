@@ -28,13 +28,16 @@ module.exports.getCurrentUser = (req, res) => {
 
 // **новый пользователь
 module.exports.createUser = (req, res) => {
-  bcrypt.hash(req.body.password, 10)
+  const {
+    name = 'Жак-Ив Кусто', about = 'Исследователь океана', avatar = 'https://kaskad.tv/images/2020/foto_zhak_iv_kusto__-_interesnie_fakti_20190810_1078596433.jpg', email, password,
+  } = req.body;
+  bcrypt.hash(password, 10)
     .then((hash) => User.create({
-      email: req.body.email,
+      email,
       password: hash,
-      name: req.body.name,
-      about: req.body.about,
-      avatar: req.body.avatar,
+      name,
+      about,
+      avatar,
     }))
     .then((user) => res.send({ data: user }))
     .catch((err) => {
