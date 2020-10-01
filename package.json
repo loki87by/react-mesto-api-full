@@ -2,7 +2,7 @@
   "name": "mesto-express",
   "version": "0.5.1",
   "private": true,
-  "homepage": "https://loki87by.github.io/mesto-express/",
+  "homepage": "mesto-loki.students.nomoreparties.xyz",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
