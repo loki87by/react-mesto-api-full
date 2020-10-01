@@ -32,10 +32,6 @@ app.get('/crash-test', () => {
   }, 0);
 });
 */
-// eslint-disable-next-line func-names
-process.on('uncaughtException', function (err) {
-  console.log(err);
-});
 app.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email({ tlds: { allow: false } }),
@@ -65,6 +61,10 @@ app.use((err, req, res, next) => {
       : message,
   });
   next(err);
+});
+// eslint-disable-next-line func-names
+process.on('uncaughtException', function (err) {
+  console.log(err);
 });
 
 app.listen(PORT, () => {
