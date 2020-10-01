@@ -1,3 +1,4 @@
+/* eslint-disable prefer-arrow-callback */
 // **импорты
 const express = require('express');
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -54,6 +55,10 @@ app.use((err, req, res, next) => {
       : message,
   });
   next(err);
+});
+// eslint-disable-next-line func-names
+process.on('uncaughtException', function (err) {
+  console.log(err);
 });
 app.listen(PORT, () => {
   console.log('Server started');
