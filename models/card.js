@@ -1,5 +1,7 @@
+// **импорт
 const mongoose = require('mongoose');
 
+// **схема
 const cardSchema = new mongoose.Schema({
   name: {
     type: String,
