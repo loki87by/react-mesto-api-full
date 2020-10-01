@@ -62,11 +62,12 @@ app.use((err, req, res, next) => {
   });
   next(err);
 });
+/*
 // eslint-disable-next-line func-names
 process.on('uncaughtException', function (err) {
   console.log(err);
 });
-
+*/
 app.listen(PORT, () => {
   console.log('Server started');
 });
