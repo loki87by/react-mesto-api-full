@@ -15,4 +15,4 @@ loginRouter.post('/', celebrate({
 }), login);
 
 // **экспорт
-module.exports = { loginRouter };
+module.exports = loginRouter;

@@ -18,4 +18,4 @@ createUserRouter.post('/', celebrate({
 }), createUser);
 
 // **экспорт
-module.exports = { createUserRouter };
+module.exports = createUserRouter;
