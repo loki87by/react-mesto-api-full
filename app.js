@@ -1,19 +1,27 @@
+/* eslint-disable import/newline-after-import */
 /* eslint-disable prefer-arrow-callback */
 // **импорты
 const express = require('express');
+const userLimit = require('express-rate-limit');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const { celebrate, Joi, errors } = require('celebrate');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { errors } = require('celebrate');
+const cors = require('cors');
 const auth = require('./middlewares/auth');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const authRouter = require('./routes/auth');
 const cardRouter = require('./routes/cardRouter');
 const userRouter = require('./routes/userRouter');
 const { pattern } = require('./routes/pattern');
-const { login, createUser } = require('./controllers/users');
-
+// const { login, createUser } = require('./controllers/users');
 const { PORT = 3000 } = process.env;
 const app = express();
+
+const limiter = userLimit({
+  windowMs: 1000,
+  max: 5,
+});
 
 // **подключение к БД
 mongoose.connect('mongodb://localhost:27017/mestodb-14', {
@@ -21,9 +29,15 @@ mongoose.connect('mongodb://localhost:27017/mestodb-14', {
   useCreateIndex: true,
   useFindAndModify: false,
   useUnifiedTopology: true,
-});
+})
+  .then(() => console.log('DB connected'))
+  .catch((err) => {
+    console.log(err);
+  });
 
 // **функционал
+app.use(limiter);
+app.use(cors({ origin: true }));
 // *парсеры
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -39,7 +53,8 @@ app.get('/crash-test', () => {
 app.use(requestLogger);
 
 // *регистрация
-app.post('/signup', celebrate({
+app.post('/signup', authRouter);
+/* celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email({ tlds: { allow: false } }),
     password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{6,30}$')).required(),
@@ -48,15 +63,16 @@ app.post('/signup', celebrate({
     // eslint-disable-next-line no-useless-escape
     avatar: Joi.string().pattern(new RegExp('https?:\/{2}\\S+\\.(jpg|png|gif|svg)')).required(),
   }),
-}), createUser);
+}), createUser); */
 
 // *логин
-app.post('/signin', celebrate({
+app.post('/signin', authRouter);
+/* celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email({ tlds: { allow: false } }),
     password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{6,30}$')).required(),
   }),
-}), login);
+}), login); */
 
 // *мидлвэр аутентификации
 app.use(auth);
