@@ -54,10 +54,10 @@ app.get('/crash-test', () => {
 app.use(requestLogger);
 
 // *регистрация
-app.post('/signup', createUserRouter);
+app.use('/signup', createUserRouter);
 
 // *логин
-app.post('/signin', loginRouter);
+app.use('/signin', loginRouter);
 
 // *мидлвэр аутентификации
 app.use(auth);
