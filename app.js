@@ -7,7 +7,7 @@ const userLimit = require('express-rate-limit');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
-// const cors = require('cors');
+const cors = require('cors');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const createUserRouter = require('./routes/createUser');
@@ -38,7 +38,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb-14', {
 
 // **функционал
 app.use(limiter);
-// app.use(cors({ origin: true }));
+app.use(cors({ origin: true }));
 // *парсеры
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
