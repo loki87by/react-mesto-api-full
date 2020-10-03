@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable import/newline-after-import */
 /* eslint-disable prefer-arrow-callback */
 // **импорты

@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable no-else-return */
 /* eslint-disable no-useless-return */
 /* eslint-disable quotes */
@@ -96,7 +97,7 @@ module.exports.login = (req, res) => {
   return User.findUserByCredentials(email, password)
   // return User.findOne({ email })(+password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key', { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
       res.send({ token });
     })
     .catch((err) => {
