@@ -8,4 +8,4 @@ pattern.get('*', (req, res) => {
 });
 
 // **экспорт
-module.exports = { pattern };
+module.exports = pattern;
