@@ -10,7 +10,8 @@ const { errors } = require('celebrate');
 const cors = require('cors');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const authRouter = require('./routes/auth');
+const createUserRouter = require('./routes/createUser');
+const loginRouter = require('./routes/login');
 const cardRouter = require('./routes/cardRouter');
 const userRouter = require('./routes/userRouter');
 const { pattern } = require('./routes/pattern');
@@ -53,26 +54,10 @@ app.get('/crash-test', () => {
 app.use(requestLogger);
 
 // *регистрация
-app.post('/signup', authRouter);
-/* celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email({ tlds: { allow: false } }),
-    password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{6,30}$')).required(),
-    name: Joi.string().required().min(2).max(30),
-    about: Joi.string().required().min(2).max(30),
-    // eslint-disable-next-line no-useless-escape
-    avatar: Joi.string().pattern(new RegExp('https?:\/{2}\\S+\\.(jpg|png|gif|svg)')).required(),
-  }),
-}), createUser); */
+app.post('/signup', createUserRouter);
 
 // *логин
-app.post('/signin', authRouter);
-/* celebrate({
-  body: Joi.object().keys({
-    email: Joi.string().required().email({ tlds: { allow: false } }),
-    password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{6,30}$')).required(),
-  }),
-}), login); */
+app.post('/signin', loginRouter);
 
 // *мидлвэр аутентификации
 app.use(auth);
