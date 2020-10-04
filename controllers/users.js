@@ -38,8 +38,11 @@ module.exports.getCurrentUser = (req, res) => {
 // **новый пользователь
 module.exports.createUser = (req, res) => {
   const {
-    name = 'Жак-Ив Кусто', about = 'Исследователь океана', avatar = 'https://kaskad.tv/images/2020/foto_zhak_iv_kusto__-_interesnie_fakti_20190810_1078596433.jpg', email, password,
+    email, password,
   } = req.body;
+  const name = 'Жак-Ив Кусто';
+  const about = 'Исследователь океана';
+  const avatar = 'https://kaskad.tv/images/2020/foto_zhak_iv_kusto__-_interesnie_fakti_20190810_1078596433.jpg';
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
       email,
