@@ -15,6 +15,8 @@ createUserRouter.post('/', celebrate({
     // eslint-disable-next-line no-useless-escape
     avatar: Joi.string().pattern(new RegExp('https?:\/{2}\\S+\\.(jpg|png|gif|svg)')).required(),
   }),
+  referrer: Joi.string().unknown(true),
+  referrerPolicy: Joi.string().unknown(true),
 }), createUser);
 
 // **экспорт
