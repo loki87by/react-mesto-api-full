@@ -10,6 +10,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const cors = require('cors');
+const { PORT = 3000 } = process.env;
+const app = express();
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const createUserRouter = require('./routes/createUser');
@@ -17,8 +19,6 @@ const loginRouter = require('./routes/login');
 const cardRouter = require('./routes/cardRouter');
 const userRouter = require('./routes/userRouter');
 const pattern = require('./routes/pattern');
-const { PORT = 3000 } = process.env;
-const app = express();
 
 const limiter = userLimit({
   windowMs: 1000,
