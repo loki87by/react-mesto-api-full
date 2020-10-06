@@ -24,9 +24,6 @@ cardRouter.delete('/:id', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
-  params: Joi.object().keys({
-    id: Joi.string().alphanum(),
-  }),
 }), deleteCard);
 cardRouter.put('/:cardId/likes', celebrate({
   headers: Joi.object().keys({
