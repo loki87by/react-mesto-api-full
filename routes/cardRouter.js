@@ -29,10 +29,16 @@ cardRouter.put('/:cardId/likes', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
+  params: Joi.object().keys({
+    id: Joi.string().alphanum(),
+  }).unknown(true),
 }), likeCard);
 cardRouter.delete('/:cardId/likes', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
+  }).unknown(true),
+  params: Joi.object().keys({
+    id: Joi.string().alphanum(),
   }).unknown(true),
 }), dislikeCard);
 
