@@ -16,7 +16,7 @@ module.exports.createCard = (req, res, next) => {
       if (res.statusCode === 400) {
         throw new BadRequestError('Переданы некорректные данные');
       }
-      res.send({ data: card });
+      res.send({ card });
     })
     .catch((err) => next(err));
 };
