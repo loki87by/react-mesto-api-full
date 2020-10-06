@@ -24,7 +24,7 @@ userRouter.get('/me', celebrate({
   }).unknown(true),
   params: Joi.object().keys({
     id: Joi.string().alphanum(),
-  }),
+  }).unknown(true),
 }), getMyInfo);
 userRouter.patch('/me', celebrate({
   headers: Joi.object().keys({
