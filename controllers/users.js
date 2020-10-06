@@ -37,7 +37,7 @@ module.exports.getMyInfo = (req, res) => {
 
 // **получение пользователя по айдишнику
 module.exports.getCurrentUser = (req, res) => {
-  User.findById(req.params._id)
+  User.findById(req.params.id)
     .orFail(new Error('NotValidId'))
     .then((user) => res.send({ data: user }))
     .catch((err) => {
@@ -74,8 +74,8 @@ module.exports.createUser = (req, res) => {
 // *обновление текстовой инфы
 module.exports.updateUser = (req, res, next) => {
   const { name, about } = req.body;
-  const { _id } = req.params;
-  return User.findByIdAndUpdate({ _id }, { name, about },
+  const { id } = req.params;
+  return User.findByIdAndUpdate({ id }, { name, about },
     { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
@@ -90,8 +90,8 @@ module.exports.updateUser = (req, res, next) => {
 // *обновление аватара
 module.exports.updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
-  const { _id } = req.params;
-  return User.findByIdAndUpdate({ _id }, { avatar },
+  const { id } = req.params;
+  return User.findByIdAndUpdate({ id }, { avatar },
     { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
