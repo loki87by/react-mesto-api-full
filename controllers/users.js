@@ -74,8 +74,8 @@ module.exports.createUser = (req, res) => {
 // *обновление текстовой инфы
 module.exports.updateUser = (req, res, next) => {
   const { name, about } = req.body;
-  const { id } = req.params;
-  return User.findByIdAndUpdate({ id }, { name, about },
+  const { _id } = req.user;
+  return User.findByIdAndUpdate({ _id }, { name, about },
     { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
@@ -90,8 +90,8 @@ module.exports.updateUser = (req, res, next) => {
 // *обновление аватара
 module.exports.updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
-  const { id } = req.params;
-  return User.findByIdAndUpdate({ id }, { avatar },
+  const { _id } = req.user;
+  return User.findByIdAndUpdate({ _id }, { avatar },
     { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
