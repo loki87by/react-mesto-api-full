@@ -2,7 +2,7 @@
 // **импорты
 const userRouter = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
-const { getUsers, getCurrentUser, updateUser, updateAvatar } = require('../controllers/users');
+const { getUsers, getMyInfo, getCurrentUser, updateUser, updateAvatar } = require('../controllers/users');
 
 // **роуты
 userRouter.get('/', celebrate({
@@ -18,6 +18,14 @@ userRouter.get('/:id', celebrate({
     id: Joi.string().alphanum(),
   }),
 }), getCurrentUser);
+userRouter.get('/me', celebrate({
+  headers: Joi.object().keys({
+    authorization: Joi.string().pattern(new RegExp('^Bearer +')),
+  }).unknown(true),
+  params: Joi.object().keys({
+    id: Joi.string().alphanum(),
+  }),
+}), getMyInfo);
 userRouter.patch('/me', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),

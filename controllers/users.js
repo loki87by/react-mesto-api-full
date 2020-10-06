@@ -23,6 +23,18 @@ module.exports.getUsers = (req, res) => {
     .catch((err) => res.status(err.message ? 400 : 500).send({ message: err.message || 'На сервере произошла ошибка' }));
 };
 
+// **получение своих данных
+module.exports.getMyInfo = (req, res) => {
+  User.findById(req.params.id)
+    .orFail(new Error('NotValidId'))
+    .then((user) => res.send({ data: user }))
+    .catch((err) => {
+      if (err.message === 'NotValidId') {
+        res.status(err.message ? 404 : 500).send({ message: 'Нет такого пользователя' || 'На сервере произошла ошибка' });
+      }
+    });
+};
+
 // **получение пользователя по айдишнику
 module.exports.getCurrentUser = (req, res) => {
   User.findById(req.params.id)
