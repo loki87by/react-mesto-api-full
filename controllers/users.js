@@ -25,7 +25,8 @@ module.exports.getUsers = (req, res) => {
 
 // **получение своих данных
 module.exports.getMyInfo = (req, res) => {
-  User.findById(req.params.id)
+  const { id } = req.params;
+  User.findById(id)
     .orFail(new Error('NotValidId'))
     .then((user) => res.send({ data: user }))
     .catch((err) => {
