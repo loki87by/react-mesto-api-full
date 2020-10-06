@@ -27,7 +27,7 @@ module.exports.getUsers = (req, res) => {
 module.exports.getMyInfo = (req, res) => {
   User.findById(req.user._id)
     .orFail(new Error('NotValidId'))
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.message === 'NotValidId') {
         res.status(err.message ? 404 : 500).send({ message: 'Нет такого пользователя' || 'На сервере произошла ошибка' });
@@ -37,7 +37,7 @@ module.exports.getMyInfo = (req, res) => {
 
 // **получение пользователя по айдишнику
 module.exports.getCurrentUser = (req, res) => {
-  User.findOne(req.params.id)
+  User.findById(req.user._id)
     .orFail(new Error('NotValidId'))
     .then((user) => res.send({ data: user }))
     .catch((err) => {
