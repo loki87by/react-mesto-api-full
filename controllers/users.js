@@ -19,10 +19,13 @@ module.exports.getUsers = (req, res) => {
 };
 
 // **получение своих данных
-module.exports.getMyInfo = (req, res) => {
-  User.findById(req.user.id)
-    .then((user) => res.send(user.data))
-    .catch((err) => console.log(err));
+module.exports.getMyInfo = (req, res, next) => {
+  User.findById(req.params.id)
+    .then((user) => {
+      if (!user) throw new NotFoundError('Нет такого пользователя');
+      res.send(user);
+    })
+    .catch(next);
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
