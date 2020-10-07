@@ -24,13 +24,14 @@ module.exports.getUsers = (req, res) => {
 };
 
 // **получение своих данных
-module.exports.getMyInfo = (req, res) => {
-  User.findById(req.user._id)
+module.exports.getMyInfo = (req, res, next) => {
+  const { _id } = req.user;
+  User.findById(_id)
     .then((user) => {
       if (!user) throw new NotFoundError('Нет такого пользователя');
       res.send(user);
     })
-    .catch((err) => res.send(err));
+    .catch(next);
 };
 
 /*
