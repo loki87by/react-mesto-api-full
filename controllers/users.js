@@ -49,7 +49,7 @@ module.exports.getMyInfo = (req, res) => {
 }; */
 
 module.exports.getCurrentUser = (req, res, next) => {
-  User.findById(req.params._id)
+  User.findById(req.params.id)
     .then((user) => {
       if (!user) throw new NotFoundError('Нет такого пользователя');
       res.send(user);
