@@ -24,16 +24,24 @@ module.exports.getUsers = (req, res) => {
 };
 
 // **получение своих данных
-module.exports.getMyInfo = (req, res) => {
+module.exports.getMyInfo = (req, res, next) => {
   User.findOne(req.user._id)
+    .then((user) => {
+      if (!user) throw new NotFoundError('Нет такого пользователя');
+      res.send(user);
+    })
+    .catch(next);
+};
+/*
     .orFail(new Error('NotValidId'))
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.message === 'NotValidId') {
-        res.status(err.message ? 404 : 500).send({ message: 'Нет такого пользователя' || 'На сервере произошла ошибка' });
+        res.status(err.message ? 404 : 500)
+        .send({ message: 'Нет такого пользователя' || 'На сервере произошла ошибка' });
       }
     });
-};
+}; */
 
 // **получение пользователя по айдишнику
 /* module.exports.getCurrentUser = (req, res) => {
