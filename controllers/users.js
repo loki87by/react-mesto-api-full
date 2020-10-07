@@ -19,13 +19,15 @@ module.exports.getUsers = (req, res) => {
 };
 
 // **получение своих данных
-module.exports.getMyInfo = (req, res, next) => {
-  User.findOneAndUpdate(req.user.id)
-    .then((user) => {
-      if (!user) throw new NotFoundError('Нет такого пользователя');
-      res.send({ data: user });
-    })
-    .catch(next);
+module.exports.getMyInfo = (req, res) => {
+  User.findById(req.user._id)
+    .orFail(new Error('NotValidId'))
+    .then((user) => res.send(user))
+    .catch((err) => {
+      if (err.message === 'NotValidId') {
+        res.status(err.message ? 404 : 500).send({ message: 'Нет такого пользователя' || 'На сервере произошла ошибка' });
+      }
+    });
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
