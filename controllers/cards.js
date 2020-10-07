@@ -37,7 +37,7 @@ module.exports.deleteCard = (req, res, next) => {
       if (!card) throw new NotFoundError('Такая карточка отсутствует в базе либо у вас нет прав на удаление');
       res.send(card);
     })
-    .catch((err) => next(err));
+    .catch(next);
 };
 
 // **дополнительные действия с карточками
