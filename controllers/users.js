@@ -25,7 +25,7 @@ module.exports.getUsers = (req, res) => {
 
 // **получение своих данных
 module.exports.getMyInfo = (req, res, next) => {
-  //    const { id } = req.params;
+  // const { id } = req.params;
   User.findOne(req.params.id)
     .then((user) => {
       if (!user) throw new NotFoundError('Нет такого пользователя');
@@ -34,8 +34,7 @@ module.exports.getMyInfo = (req, res, next) => {
     .catch(next);
 };
 
-/*
-.orFail(new Error('NotValidId'))
+/* .orFail(new Error('NotValidId'))
     .then((user) =>
     res.send(user))
     .catch((err) => {
