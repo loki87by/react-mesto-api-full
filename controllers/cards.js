@@ -34,11 +34,8 @@ module.exports.deleteCard = (req, res, next) => {
   const owner = req.user._id;
   Card.findByIdAndRemove({ _id: req.params._id, owner })
     .then((card) => {
-      if (!card) {
-        throw new NotFoundError('Такая карточка отсутствует в базе либо у вас нет прав на удаление');
-      } else {
-        res.send(card);
-      }
+      if (!card) throw new NotFoundError('Такая карточка отсутствует в базе либо у вас нет прав на удаление');
+      res.send(card);
     })
     .catch((err) => next(err));
 };
