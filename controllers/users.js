@@ -36,17 +36,26 @@ module.exports.getMyInfo = (req, res) => {
 };
 
 // **получение пользователя по айдишнику
-module.exports.getCurrentUser = (req, res) => {
+/* module.exports.getCurrentUser = (req, res) => {
   User.findById(req.params._id)
     .orFail(new Error('NotValidId'))
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.message === 'NotValidId') {
-        res.status(err.message ? 404 : 500).send({ message: 'Нет такого пользователя' || 'На сервере произошла ошибка' });
+        res.status(err.message ? 404 : 500)
+        .send({ message: 'Нет такого пользователя' || 'На сервере произошла ошибка' });
       }
     });
-};
+}; */
 
+module.exports.getCurrentUser = (req, res, next) => {
+  User.findById(req.params._id)
+    .then((user) => {
+      if (!user) throw new NotFoundError('Нет такого пользователя');
+      res.send(user);
+    })
+    .catch(next);
+};
 // **новый пользователь
 module.exports.createUser = (req, res) => {
   const {
