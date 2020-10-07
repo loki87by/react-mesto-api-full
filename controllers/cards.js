@@ -45,8 +45,8 @@ module.exports.deleteCard = (req, res, next) => {
 // **дополнительные действия с карточками
 // *лайк
 module.exports.likeCard = (req, res, next) => {
-  const { _id } = req.params;
-  return Card.findByIdAndUpdate({ _id },
+  const { id } = req.params;
+  return Card.findByIdAndUpdate({ id },
     { $addToSet: { likes: req.user._id } },
     { new: true })
     .then((card) => {
@@ -61,8 +61,8 @@ module.exports.likeCard = (req, res, next) => {
 
 // *дизлайк
 module.exports.dislikeCard = (req, res, next) => {
-  const { _id } = req.params;
-  return Card.findByIdAndUpdate({ _id },
+  const { id } = req.params;
+  return Card.findByIdAndUpdate({ id },
     { $pull: { likes: req.user._id } },
     { new: true })
     .then((card) => {
