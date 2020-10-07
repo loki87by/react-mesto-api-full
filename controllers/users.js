@@ -20,7 +20,8 @@ module.exports.getUsers = (req, res) => {
 
 // **получение своих данных
 module.exports.getMyInfo = (req, res) => {
-  User.findUserByCredentials(req.params.id)
+  const { _id } = req.params;
+  User.findUserByCredentials(_id)
     .then((user) => res.send(user))
     .catch((err) => console.log(err));
 };
