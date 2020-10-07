@@ -20,7 +20,7 @@ cardRouter.get('/', celebrate({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
 }), getAllCards);
-cardRouter.delete('/:id', celebrate({
+/* cardRouter.delete('/:id', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
@@ -43,7 +43,10 @@ cardRouter.delete('/:cardId/likes', celebrate({
   params: Joi.object().keys({
     id: Joi.string().alphanum().length(24),
   }).unknown(true),
-}), dislikeCard);
+}), dislikeCard); */
+cardRouter.delete('/:id', deleteCard);
+cardRouter.put('/:cardId/likes', likeCard);
+cardRouter.delete('/:cardId/likes', dislikeCard);
 
 // **экспорт
 module.exports = cardRouter;
