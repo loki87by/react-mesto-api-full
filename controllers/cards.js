@@ -46,7 +46,7 @@ module.exports.deleteCard = (req, res, next) => {
 // *лайк
 module.exports.likeCard = (req, res, next) => {
   const { id } = req.params;
-  return Card.findByIdAndUpdate({ id },
+  return Card.findOneAndUpdate({ id },
     { $addToSet: { likes: req.user._id } },
     { new: true })
     .then((card) => {
