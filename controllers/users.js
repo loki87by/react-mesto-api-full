@@ -34,7 +34,8 @@ module.exports.getMyInfo = (req, res, next) => {
     .catch(next);
 };
 
-/* .orFail(new Error('NotValidId'))
+/*
+.orFail(new Error('NotValidId'))
     .then((user) =>
     res.send(user))
     .catch((err) => {
