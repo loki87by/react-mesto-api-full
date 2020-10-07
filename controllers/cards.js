@@ -44,10 +44,9 @@ module.exports.deleteCard = (req, res, next) => {
 
 // **дополнительные действия с карточками
 // *лайк
-// eslint-disable-next-line arrow-body-style
 module.exports.likeCard = (req, res, next) => {
-  // const { id } = req.params;
-  return Card.findByIdAndUpdate({ _id: req.params.id },
+  const { id } = req.params;
+  return Card.findByIdAndUpdate({ id },
     { $addToSet: { likes: req.user._id } },
     { new: true })
     .then((card) => {
