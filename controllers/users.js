@@ -32,8 +32,7 @@ module.exports.getMyInfo = (req, res) => {
     })
     .catch((err) => res.send(err));
 };
-/*
-    .orFail(new Error('NotValidId'))
+/* .orFail(new Error('NotValidId'))
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.message === 'NotValidId') {
