@@ -10,13 +10,8 @@ const NotFoundError = require('../errors/notFoundErr');
 // const BadRequestError = require('../errors/badRequest');
 
 // const { NODE_ENV, JWT_SECRET } = process.env;
-/*
+
 // **список пользователей
-module.exports.getUsers = (req, res, next) => {
-  User.find({})
-    .then((user) => res.send(user))
-    .catch((err) => next(new BadRequestError(err)));
-}; */
 module.exports.getUsers = (req, res) => {
   User.find({})
     .then((user) => res.send(user))
