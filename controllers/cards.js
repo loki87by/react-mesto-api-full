@@ -32,7 +32,7 @@ module.exports.getAllCards = (req, res) => {
 // **удаление карточки
 module.exports.deleteCard = (req, res, next) => {
   const owner = req.user._id;
-  Card.findOneAndRemove({ _id: req.card._id, owner })
+  Card.findByIdAndRemove({ _id: req.card._id, owner })
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Такая карточка отсутствует в базе либо у вас нет прав на удаление');
@@ -47,7 +47,7 @@ module.exports.deleteCard = (req, res, next) => {
 // *лайк
 module.exports.likeCard = (req, res, next) => {
   const { _id } = req.card;
-  return Card.findOneAndUpdate({ _id },
+  return Card.findByIdAndUpdate({ _id },
     { $addToSet: { likes: req.user._id } },
     { new: true })
     .then((card) => {
@@ -63,7 +63,7 @@ module.exports.likeCard = (req, res, next) => {
 // *дизлайк
 module.exports.dislikeCard = (req, res, next) => {
   const { _id } = req.card;
-  return Card.findOneAndUpdate({ _id },
+  return Card.findByIdAndUpdate({ _id },
     { $pull: { likes: req.user._id } },
     { new: true })
     .then((card) => {

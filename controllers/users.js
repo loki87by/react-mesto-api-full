@@ -37,7 +37,7 @@ module.exports.getMyInfo = (req, res) => {
 
 // **получение пользователя по айдишнику
 module.exports.getCurrentUser = (req, res) => {
-  User.findById(req.user._id)
+  User.findById(req.params._id)
     .orFail(new Error('NotValidId'))
     .then((user) => res.send({ data: user }))
     .catch((err) => {
