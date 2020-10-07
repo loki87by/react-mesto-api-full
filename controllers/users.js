@@ -23,7 +23,7 @@ module.exports.getMyInfo = (req, res, next) => {
   User.findById(req.params.id)
     .then((user) => {
       if (!user) throw new NotFoundError('Нет такого пользователя');
-      res.send(user);
+      res.send({ data: user });
     })
     .catch(next);
 };
