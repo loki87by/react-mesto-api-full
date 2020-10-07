@@ -28,7 +28,7 @@ cardRouter.delete('/:id', celebrate({
     id: Joi.string().alphanum().length(24),
   }).unknown(true),
 }), deleteCard);
-/* cardRouter.put('/:cardId/likes', celebrate({
+cardRouter.put('/:cardId/likes', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
@@ -43,10 +43,10 @@ cardRouter.delete('/:cardId/likes', celebrate({
   params: Joi.object().keys({
     id: Joi.string().alphanum().length(24),
   }).unknown(true),
-}), dislikeCard); */
+}), dislikeCard);
 // cardRouter.delete('/:id', deleteCard);
-cardRouter.put('/:cardId/likes', likeCard);
-cardRouter.delete('/:cardId/likes', dislikeCard);
+// cardRouter.put('/:cardId/likes', likeCard);
+// cardRouter.delete('/:cardId/likes', dislikeCard);
 
 // **экспорт
 module.exports = cardRouter;
