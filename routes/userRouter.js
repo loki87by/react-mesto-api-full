@@ -18,11 +18,12 @@ userRouter.get('/:id', celebrate({
     id: Joi.string().alphanum(),
   }),
 }), getCurrentUser);
-userRouter.get('/me', celebrate({
+userRouter.get('/me', getMyInfo);
+/* userRouter.get('/me', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
-}), getMyInfo);
+}), getMyInfo); */
 userRouter.patch('/me', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
