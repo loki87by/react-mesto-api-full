@@ -25,7 +25,7 @@ cardRouter.delete('/:id', celebrate({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
   params: Joi.object().keys({
-    id: Joi.string().uri().required(),
+    id: Joi.string().alphanum().length(24),
   }).unknown(true),
 }), deleteCard);
 cardRouter.put('/:cardId/likes', celebrate({
@@ -33,7 +33,7 @@ cardRouter.put('/:cardId/likes', celebrate({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
   params: Joi.object().keys({
-    id: Joi.string().uri().required(),
+    id: Joi.string().alphanum().length(24),
   }).unknown(true),
 }), likeCard);
 cardRouter.delete('/:cardId/likes', celebrate({
@@ -41,7 +41,7 @@ cardRouter.delete('/:cardId/likes', celebrate({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
   params: Joi.object().keys({
-    id: Joi.string().uri().required(),
+    id: Joi.string().alphanum().length(24),
   }).unknown(true),
 }), dislikeCard);
 
