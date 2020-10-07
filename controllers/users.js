@@ -24,16 +24,13 @@ module.exports.getUsers = (req, res) => {
 };
 
 // **получение своих данных
-module.exports.getMyInfo = (req, res, next) => {
-  const { _id } = req.user;
-  User.findOne(_id)
+module.exports.getMyInfo = (req, res) => {
+  User.findById(req.user._id)
     .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Нет такого пользователя');
-      }
+      if (!user) throw new NotFoundError('Нет такого пользователя');
       res.send(user);
     })
-    .catch(next);
+    .catch((err) => res.send(err));
 };
 /*
     .orFail(new Error('NotValidId'))
