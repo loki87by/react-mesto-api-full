@@ -32,7 +32,7 @@ module.exports.getMyInfo = (req, res) => {
     });
 }; */
 module.exports.getMyInfo = (req, res) => {
-  User.findById(req.user._id)
+  User.findById(req.params._id)
     .then((user) => {
       console.log(req.user._id);
       if (!user) throw new NotFoundError('Нет такого пользователя');
