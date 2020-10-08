@@ -31,13 +31,16 @@ module.exports.getMyInfo = (req, res) => {
       }
     });
 }; */
-module.exports.getMyInfo = (req, res, next) => {
+module.exports.getMyInfo = (req, res) => {
   User.findById(req.user._id)
-    .then((user) => {
-      if (!user) throw new NotFoundError('Нет такого пользователя');
-      res.send(user);
-    })
-    .catch((err) => next(err));
+    .orFail(new Error('NotValidId'))
+    .then((user) => res.send({ user }))
+    .catch((err) => {
+      if (err.message === 'NotValidId') {
+        res.status(err.message ? 404 : 500)
+          .send({ message: 'Нет такого пользователя' || 'На сервере произошла ошибка' });
+      }
+    });
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
