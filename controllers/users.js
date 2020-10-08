@@ -31,14 +31,14 @@ module.exports.getMyInfo = (req, res) => {
       }
     });
 }; */
-module.exports.getMyInfo = (req, res, next) => {
+module.exports.getMyInfo = (req, res) => {
   User.findById(req.user._id)
     .then((user) => {
-    /* console.log(req.user._id);
-      if (!user) throw new NotFoundError('Нет такого пользователя'); */
-      res.send(req.user._id, user);
+      console.log(req.user._id);
+      if (!user) throw new NotFoundError('Нет такого пользователя');
+      res.send(user);
     })
-    .catch(next);
+    .catch(req.user._id);
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
