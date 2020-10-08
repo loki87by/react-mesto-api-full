@@ -10,8 +10,8 @@ userRouter.get('/', celebrate({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
 }), getUsers);
-userRouter.get('/me/', getMyInfo);
-userRouter.get('/:id', celebrate({
+userRouter.get('/me', getMyInfo);
+userRouter.get('/:id/', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
