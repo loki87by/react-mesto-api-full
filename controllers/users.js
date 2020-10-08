@@ -26,8 +26,7 @@ module.exports.getMyInfo = (req, res) => {
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.message === 'NotValidId') {
-        res.status(err.message ? 404 : 500)
-        .send({ message: 'Нет такого пользователя' || 'На сервере произошла ошибка' });
+        res.status(err.message ? 404 : 500).send({ message: 'Нет такого пользователя' || 'На сервере произошла ошибка' });
       }
     });
 }; */
