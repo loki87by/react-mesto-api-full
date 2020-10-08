@@ -32,7 +32,6 @@ module.exports.getMyInfo = (req, res) => {
     });
 }; */
 module.exports.getMyInfo = (req, res, next) => {
-  console.log(req.user);
   User.findById(req.user._id)
     .then((user) => {
       if (!user) throw new NotFoundError('Нет такого пользователя');
@@ -49,6 +48,8 @@ module.exports.getCurrentUser = (req, res, next) => {
         res.send(user);
       })
       .catch(next);
+  } else {
+    this.getMyInfo();
   }
 };
 // **новый пользователь
