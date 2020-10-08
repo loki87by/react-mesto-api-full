@@ -38,7 +38,7 @@ module.exports.getMyInfo = (req, res, next) => {
       if (!user) throw new NotFoundError('Нет такого пользователя');
       res.send(user);
     })
-    .catch(next);
+    .catch((err) => next(err));
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
