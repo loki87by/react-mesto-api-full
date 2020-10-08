@@ -32,19 +32,6 @@ module.exports.getMyInfo = (req, res) => {
     });
 }; */
 module.exports.getMyInfo = (req, res, next) => {
-  const { _id, name, about } = req.user;
-  return User.findByIdAndUpdate({ _id }, { name, about },
-    { new: true, runValidators: true })
-    .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Нет пользователя с таким id');
-      } else {
-        res.send({ data: user });
-      }
-    })
-    .catch((err) => next(err));
-};
-/* (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       console.log(req.user);
@@ -52,7 +39,7 @@ module.exports.getMyInfo = (req, res, next) => {
       res.send(user);
     })
     .catch((err) => next(err));
-}; */
+};
 
 module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.params.id)
