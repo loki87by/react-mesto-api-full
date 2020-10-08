@@ -42,12 +42,14 @@ module.exports.getMyInfo = (req, res, next) => {
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
-  User.findById(req.params.id)
-    .then((user) => {
-      if (!user) throw new NotFoundError('Нет такого пользователя');
-      res.send(user);
-    })
-    .catch(next);
+  if (req.params.id !== 'me') {
+    User.findById(req.params.id)
+      .then((user) => {
+        if (!user) throw new NotFoundError('Нет такого пользователя');
+        res.send(user);
+      })
+      .catch(next);
+  }
 };
 // **новый пользователь
 module.exports.createUser = (req, res) => {
