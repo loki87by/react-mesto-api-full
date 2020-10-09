@@ -16,7 +16,7 @@ userRouter.get('/me', celebrate({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
 }), getMyInfo);
-userRouter.get('/:id/', celebrate({
+userRouter.get('/:id', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
