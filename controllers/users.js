@@ -34,7 +34,7 @@ module.exports.getMyInfo = (req, res) => {
 module.exports.getMyInfo = (req, res) => {
   User.findById(req.user._id)
     .orFail(new Error('NotValidId'))
-    .then((user) => res.send(user))
+    .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.message === 'NotValidId') {
         res.status(err.message ? 404 : 500)
