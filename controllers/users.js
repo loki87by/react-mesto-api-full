@@ -142,8 +142,14 @@ module.exports.login = (req, res, next) => {
   // return User.findOne({ email })('+password')
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key', { expiresIn: '7d' });
-      res
-      /*
+      res.send(token);
+    })
+    .catch((err) => {
+      // res.status(401).send({ message: err.message });
+      next(err);
+    });
+};
+/*
         .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
@@ -153,10 +159,3 @@ module.exports.login = (req, res, next) => {
     })
     .catch(next);
 }; */
-        .send({ token });
-    })
-    .catch((err) => {
-      // res.status(401).send({ message: err.message });
-      next(err);
-    });
-};
