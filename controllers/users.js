@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const NotFoundError = require('../errors/notFoundErr');
 const BadRequestError = require('../errors/badRequest');
-const UnauthorizedError = require('../errors/unauthorized');
+// const UnauthorizedError = require('../errors/unauthorized');
 const ConflictError = require('../errors/conflictErr');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
@@ -134,19 +134,8 @@ module.exports.updateAvatar = (req, res, next) => {
 // **логин
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
-  // return User.findUserByCredentials(email, password)
-  return User.findOne({ email }).select('+password')
-    .then((user) => {
-      if (!user) throw new UnauthorizedError('Неправильные почта или пароль');
-      return bcrypt.compare(password, user.password)
-        .then((matched) => {
-          if (!matched) {
-            throw new UnauthorizedError('Неправильные почта или пароль');
-            // return Promise.reject(new Error('Неправильные почта или пароль'));
-          }
-          return user;
-        });
-    })
+  return User.findUserByCredentials(email, password)
+  // return User.findOne({ email }).select('+password')
     .then((user) => {
       console.log(user);
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key', { expiresIn: '7d' });
