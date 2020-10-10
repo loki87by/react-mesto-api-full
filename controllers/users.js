@@ -134,7 +134,7 @@ module.exports.updateAvatar = (req, res, next) => {
 module.exports.login = (req, res) => {
   const { email } = req.body;
   // return User.findUserByCredentials(email, password)
-  return User.findOne({ email })('+password')
+  return User.findOne(email)('+password')
     .then((user) => {
       console.log(user);
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key', { expiresIn: '7d' });
