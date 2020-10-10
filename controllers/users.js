@@ -9,6 +9,7 @@ const User = require('../models/user');
 const NotFoundError = require('../errors/notFoundErr');
 const BadRequestError = require('../errors/badRequest');
 const ConflictError = require('../errors/conflictErr');
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 // **список пользователей
@@ -141,7 +142,7 @@ module.exports.login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key', { expiresIn: '7d' });
       res
-      //
+      /*
         .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
@@ -150,11 +151,11 @@ module.exports.login = (req, res, next) => {
         .send({ message: 'Успешная авторизация' });
     })
     .catch(next);
-};
-/* .send({ token });
+}; */
+        .send({ token });
     })
     .catch((err) => {
       res.status(401).send({ message: err.message });
-      // next(err)
+      next(err);
     });
-}; */
+};
