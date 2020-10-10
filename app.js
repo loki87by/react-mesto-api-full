@@ -2,7 +2,7 @@
 /* eslint-disable import/newline-after-import */
 /* eslint-disable prefer-arrow-callback */
 // **импорты
-// require('dotenv').config();
+require('dotenv').config();
 const express = require('express');
 const userLimit = require('express-rate-limit');
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -10,8 +10,6 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const cors = require('cors');
-const { PORT = 3000 } = process.env;
-const app = express();
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const createUserRouter = require('./routes/createUser');
@@ -20,9 +18,14 @@ const cardRouter = require('./routes/cardRouter');
 const userRouter = require('./routes/userRouter');
 const pattern = require('./routes/pattern');
 
+const app = express();
+
+const { PORT = 3000 } = process.env;
+
 const limiter = userLimit({
-  windowMs: 1000,
-  max: 5,
+  windowMs: 15 * 60 * 1000,
+  max: 50,
+  message: 'Мы заметили подозрительную активность с вашего IP-адреса, повторите запрос позже',
 });
 
 // **подключение к БД

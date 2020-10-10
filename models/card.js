@@ -1,5 +1,6 @@
 // **импорт
 const mongoose = require('mongoose');
+const validator = require('validator');
 
 // **схема
 const cardSchema = new mongoose.Schema({
@@ -14,7 +15,7 @@ const cardSchema = new mongoose.Schema({
     required: [true, 'Введите ссылку в формате http(s)://'],
     validate: {
       validator(str) {
-        return /https?:\/{2}\S+/gi.test(str);
+        return validator.isURL(str);
       },
       // eslint-disable-next-line arrow-body-style
       message: (props) => {
@@ -37,6 +38,6 @@ const cardSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-});
+}, { versionKey: false });
 // **экспорт
 module.exports = mongoose.model('card', cardSchema);

@@ -4,6 +4,7 @@
 const Card = require('../models/card');
 const BadRequestError = require('../errors/badRequest');
 const NotFoundError = require('../errors/notFoundErr');
+const ForbiddenError = require('../errors/forbiddenErr');
 
 // **создание карточки
 module.exports.createCard = (req, res, next) => {
@@ -16,7 +17,7 @@ module.exports.createCard = (req, res, next) => {
       if (res.statusCode === 400) {
         throw new BadRequestError('Переданы некорректные данные');
       }
-      res.send({ card });
+      res.send({ data: card });
     })
     .catch((err) => next(err));
 };
@@ -25,21 +26,40 @@ module.exports.createCard = (req, res, next) => {
 module.exports.getAllCards = (req, res) => {
   Card.find({})
     .populate('user')
-    .then((card) => res.send(card))
+    .then((cards) => res.send({ data: cards }))
     .catch((err) => res.status(err.message ? 400 : 500).send({ message: err.message || 'На сервере произошла ошибка' }));
 };
 
 // **удаление карточки
-module.exports.deleteCard = (req, res, next) => {
+/* module.exports.deleteCard = (req, res, next) => {
   const owner = req.user._id;
   Card.findByIdAndRemove({ _id: req.params.id, owner })
     .then((card) => {
       if (!card) {
-        throw new NotFoundError('Такая карточка отсутствует в базе либо у вас нет прав на удаление');
+      throw new NotFoundError('Такая карточка отсутствует в базе либо у вас нет прав на удаление');
       }
       res.send(card);
     })
     .catch((err) => next(err));
+}; */
+
+module.exports.deleteCard = (req, res, next) => {
+  Card.findById(req.params._id)
+    .orFail()
+    .catch(() => {
+      throw new NotFoundError('Нет карточки с таким id');
+    })
+    .then((card) => {
+      if (card.owner.toString() !== req.user._id) {
+        throw new ForbiddenError('Недостаточно прав для выполнения операции');
+      }
+      Card.findByIdAndDelete(req.params._id)
+        .then((cardData) => {
+          res.send({ data: cardData });
+        })
+        .catch(next);
+    })
+    .catch(next);
 };
 
 // **дополнительные действия с карточками
@@ -74,3 +94,59 @@ module.exports.dislikeCard = (req, res, next) => {
     })
     .catch((err) => next(err));
 };
+
+/* module.exports.likeCard = (req, res, next) => {
+  Card.findByIdAndUpdate(
+    req.params._id,
+    {
+      $addToSet: {
+        likes: req.user._id,
+      },
+    }, // добавить _id в массив, если его там нет
+    {
+      new: true,
+    },
+  )
+    .orFail(new Error('NotValidId'))
+    .then((likes) => res.send({
+      data: likes,
+    }))
+    .catch((err) => {
+      if (err.message === 'NotValidId') {
+        throw new NotFoundError('Нет карточки с таким id');
+      }
+      if (err.name === 'ValidationError') {
+        throw new RequestError('Указаны некорректные данные при создании карточки');
+      }
+    })
+    .catch(next);
+};
+
+module.exports.dislikeCard = (req, res, next) => {
+  Card.findByIdAndUpdate(
+    req.params._id,
+    {
+      $pull: {
+        likes: req.user._id,
+      },
+    }, // убрать _id из массива
+    {
+      new: true,
+    },
+  )
+    .orFail(new Error('NotValidId'))
+    .then((likes) => res.send({
+      data: likes,
+    }))
+    .catch((err) => {
+      if (err.message === 'NotValidId') {
+        throw new NotFoundError('Нет карточки с таким id');
+      }
+      if (err.name === 'ValidationError') {
+        throw new RequestError(
+          'Указаны некорректные данные при создании карточки',
+        );
+      }
+    })
+    .catch(next);
+}; */
