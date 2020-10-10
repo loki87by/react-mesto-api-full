@@ -4,13 +4,14 @@
 /* eslint-disable quotes */
 // **импорты
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const NotFoundError = require('../errors/notFoundErr');
 const BadRequestError = require('../errors/badRequest');
+const UnauthorizedError = require('../errors/unauthorized');
 const ConflictError = require('../errors/conflictErr');
 
-const { NODE_ENV, JWT_SECRET } = process.env;
+// const { NODE_ENV, JWT_SECRET } = process.env;
 
 // **список пользователей
 module.exports.getUsers = (req, res) => {
@@ -131,18 +132,30 @@ module.exports.updateAvatar = (req, res, next) => {
 };
 
 // **логин
-module.exports.login = (req, res) => {
+module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
-  return User.findUserByCredentials(email, password)
-  // return User.findOne({ email })('+password')
+  // return User.findUserByCredentials(email, password)
+  return User.findOne({ email }).select('+password')
     .then((user) => {
-      console.log(user);
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key', { expiresIn: '7d' });
-      res.send({ token });
+      if (!user) throw new UnauthorizedError('Неправильные почта или пароль');
+      return bcrypt.compare(password, user.password)
+        .then((matched) => {
+          if (!matched) {
+            throw new UnauthorizedError('Неправильные почта или пароль');
+            // return Promise.reject(new Error('Неправильные почта или пароль'));
+          }
+          return user;
+        });
     })
+    /* .then
+      console.log(user);
+      const token = jwt.sign({ _id: user._id
+      }, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key', { expiresIn: '7d' });
+      res.send({ token });
+    }) */
     .catch((err) => {
-      res.status(401).send({ message: err.message });
-      // next(err);
+    // res.status(401).send({ message: err.message });
+      next(err);
     });
 };
 /*
