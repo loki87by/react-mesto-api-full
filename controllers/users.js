@@ -63,15 +63,7 @@ module.exports.createUser = (req, res, next) => {
         throw new ConflictError({ message: 'Пользователь с таким email уже существует' });
       } else next(err);
     })
-    .then((user) => res.status(201).send({
-      data: {
-        name: user.name,
-        about: user.about,
-        avatar,
-        email: user.email,
-        _id: user._id,
-      },
-    }))
+    .then((user) => res.status(201).send({ user }))
     .catch(next);
 };
 /*  .then((user) => res.send({ data: user }))
