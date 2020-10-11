@@ -60,7 +60,7 @@ module.exports.createUser = (req, res, next) => {
       avatar,
     }))
     .catch((err) => {
-      if (err.name === 'MongoError' && err.code === 11000 && err.status === 409) {
+      if (err.name === 'MongoError' && err.code === 11000 && res.status === 409) {
         throw new ConflictError({ message: 'Пользователь с таким email уже существует' });
       } else next(err);
     })
@@ -133,8 +133,8 @@ module.exports.updateAvatar = (req, res, next) => {
 
 // **логин
 module.exports.login = (req, res) => {
-  const { email, password } = req.body;
-  return User.findUserByCredentials(email, password)
+  const { email } = req.body;
+  return User.findOne(email)
   // return User.findOne({ email })('+password')
     .then((user) => {
       // const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
