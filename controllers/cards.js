@@ -26,7 +26,7 @@ module.exports.createCard = (req, res, next) => {
 module.exports.getAllCards = (req, res) => {
   Card.find({})
     .populate('user')
-    .then((cards) => res.send({ data: cards }))
+    .then((cards) => res.send({ cards }))
     .catch((err) => res.status(err.message ? 400 : 500).send({ message: err.message || 'На сервере произошла ошибка' }));
 };
 
