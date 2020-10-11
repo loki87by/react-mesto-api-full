@@ -7,30 +7,18 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const NotFoundError = require('../errors/notFoundErr');
-// const BadRequestError = require('../errors/badRequest');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-// **список пользователей
+// **получение данных
+// *список пользователей
 module.exports.getUsers = (req, res) => {
   User.find({})
     .then((user) => res.send(user))
     .catch((err) => res.status(err.message ? 400 : 500).send({ message: err.message || 'На сервере произошла ошибка' }));
 };
 
-// **получение своих данных
-/*
-module.exports.getMyInfo = (req, res) => {
-  User.findById(req.user._id)
-    .orFail(new Error('NotValidId'))
-    .then((user) => res.send({ user }))
-    .catch((err) => {
-      if (err.message === 'NotValidId') {
-        res.status(err.message ? 404 : 500)
-        .send({ message: 'Нет такого пользователя' || 'На сервере произошла ошибка' });
-      }
-    });
-}; */
+// *свои данные
 module.exports.getMyInfo = (req, res) => {
   User.findById(req.user._id)
     .orFail(new Error('NotValidId'))
@@ -43,6 +31,7 @@ module.exports.getMyInfo = (req, res) => {
     });
 };
 
+// *юзер по айди
 module.exports.getCurrentUser = (req, res, next) => {
   if (req.params.id !== 'me') {
     User.findById(req.params.id)
@@ -55,6 +44,7 @@ module.exports.getCurrentUser = (req, res, next) => {
     this.getMyInfo();
   }
 };
+
 // **новый пользователь
 module.exports.createUser = (req, res) => {
   const {
@@ -127,7 +117,6 @@ module.exports.login = (req, res, next) => {
       res.send({ token });
     })
     .catch((err) => {
-      // res.status(401).send({ message: err.message });
       next(err);
     });
 };

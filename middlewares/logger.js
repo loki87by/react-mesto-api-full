@@ -14,6 +14,7 @@ const requestLogger = expressWinston.logger({
   ],
   format: winston.format.json(),
 });
+
 // *логгер ошибок
 const errorLogger = expressWinston.errorLogger({
   transports: [

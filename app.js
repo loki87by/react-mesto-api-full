@@ -1,6 +1,7 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable import/newline-after-import */
 /* eslint-disable prefer-arrow-callback */
+
 // **импорты
 require('dotenv').config();
 const express = require('express');
@@ -42,6 +43,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb-14', {
 // **функционал
 app.use(cors({ origin: true }));
 app.use(limiter);
+
 // *парсеры
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

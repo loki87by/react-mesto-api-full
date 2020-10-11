@@ -1,3 +1,4 @@
+// **верификация
 /* eslint-disable linebreak-style */
 const jwt = require('jsonwebtoken');
 

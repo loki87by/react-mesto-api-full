@@ -15,11 +15,13 @@ cardRouter.post('/', celebrate({
     link: Joi.string().pattern(new RegExp('https?:\/{2}\\S+\\.(jpg|png|gif|svg)')).required(),
   }),
 }), createCard);
+
 cardRouter.get('/', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
 }), getAllCards);
+
 cardRouter.delete('/:id', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
@@ -28,6 +30,7 @@ cardRouter.delete('/:id', celebrate({
     id: Joi.string().alphanum().length(24),
   }).unknown(true),
 }), deleteCard);
+
 cardRouter.put('/:cardId/likes', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
@@ -36,6 +39,7 @@ cardRouter.put('/:cardId/likes', celebrate({
     id: Joi.string().alphanum().length(24),
   }).unknown(true),
 }), likeCard);
+
 cardRouter.delete('/:cardId/likes', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
@@ -44,9 +48,6 @@ cardRouter.delete('/:cardId/likes', celebrate({
     id: Joi.string().alphanum().length(24),
   }).unknown(true),
 }), dislikeCard);
-// cardRouter.delete('/:id', deleteCard);
-// cardRouter.put('/:cardId/likes', likeCard);
-// cardRouter.delete('/:cardId/likes', dislikeCard);
 
 // **экспорт
 module.exports = cardRouter;

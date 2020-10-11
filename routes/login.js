@@ -6,7 +6,6 @@ const { login } = require('../controllers/users');
 
 // **функционал
 // eslint-disable-next-line arrow-body-style
-
 loginRouter.post('/', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email({ tlds: { allow: false } }),

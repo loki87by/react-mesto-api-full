@@ -16,6 +16,5 @@ createUserRouter.post('/', celebrate({
     avatar: Joi.string().pattern(new RegExp('https?:\/{2}\\S+\\.(jpg|png|gif|svg)')).required(),
   }),
 }), createUser);
-
 // **экспорт
 module.exports = createUserRouter;

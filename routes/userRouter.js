@@ -10,11 +10,13 @@ userRouter.get('/', celebrate({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
 }), getUsers);
+
 userRouter.get('/me', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
 }), getMyInfo);
+
 userRouter.get('/:id', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
@@ -23,6 +25,7 @@ userRouter.get('/:id', celebrate({
     id: Joi.string().alphanum().length(24).hex(),
   }),
 }), getCurrentUser);
+
 userRouter.patch('/me', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
@@ -32,6 +35,7 @@ userRouter.patch('/me', celebrate({
     about: Joi.string().required().min(2).max(30),
   }),
 }), updateUser);
+
 userRouter.patch('/me/avatar', celebrate({
   headers: Joi.object().keys({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
