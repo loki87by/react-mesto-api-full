@@ -4,14 +4,14 @@
 /* eslint-disable quotes */
 // **импорты
 const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const NotFoundError = require('../errors/notFoundErr');
 const BadRequestError = require('../errors/badRequest');
 // const UnauthorizedError = require('../errors/unauthorized');
 const ConflictError = require('../errors/conflictErr');
 
-// const { NODE_ENV, JWT_SECRET } = process.env;
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 // **список пользователей
 module.exports.getUsers = (req, res) => {
@@ -133,12 +133,12 @@ module.exports.updateAvatar = (req, res, next) => {
 
 // **логин
 module.exports.login = (req, res) => {
-  const { email } = req.body;
-  return User.findOne(email)
+  const { email, password } = req.body;
+  return User.findUserByCredentials(email, password)
   // return User.findOne({ email })('+password')
     .then((user) => {
-      // const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
-      res.send(user);
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key', { expiresIn: '7d' });
+      res.send({ token });
     })
     .catch((err) => {
       res.status(401).send({ message: err.message });
