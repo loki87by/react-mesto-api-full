@@ -2,7 +2,7 @@
   "name": "mesto-express",
   "version": "0.5.1",
   "private": true,
-  "homepage": "mesto-loki.students.nomoreparties.xyz",
+  "homepage": "lokis.students.nomoreparties.co",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -24,12 +24,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "dev": "nodemon app.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -58,12 +53,12 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/loki87by/express-mesto.git"
+    "url": "git+https://github.com/loki87by/react-mesto-api-full.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/loki87by/express-mesto/issues"
+    "url": "https://github.com/loki87by/react-mesto-api-full/issues"
   }
 }
