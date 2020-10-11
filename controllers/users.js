@@ -4,7 +4,7 @@
 /* eslint-disable quotes */
 // **импорты
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const NotFoundError = require('../errors/notFoundErr');
 const BadRequestError = require('../errors/badRequest');
@@ -60,7 +60,7 @@ module.exports.createUser = (req, res, next) => {
       avatar,
     }))
     .catch((err) => {
-      if (err.name === 'MongoError' || err.code === 11000 || err.status === 409) {
+      if (err.name === 'MongoError' && err.code === 11000 && err.status === 409) {
         throw new ConflictError({ message: 'Пользователь с таким email уже существует' });
       } else next(err);
     })
@@ -137,8 +137,8 @@ module.exports.login = (req, res) => {
   return User.findUserByCredentials(email, password)
   // return User.findOne({ email })('+password')
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
-      res.send({ token });
+      // const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
+      res.send(user);
     })
     .catch((err) => {
       res.status(401).send({ message: err.message });
