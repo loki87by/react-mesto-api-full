@@ -25,19 +25,19 @@ const userSchema = new mongoose.Schema({
   },
   name: {
     type: String,
-    required: false,
+    required: true,
     minlength: 2,
     maxlength: 30,
   },
   about: {
     type: String,
-    required: false,
+    required: true,
     minlength: 2,
     maxlength: 30,
   },
   avatar: {
     type: String,
-    required: false,
+    required: true,
     validate: {
       validator(str) {
         return validator.isURL(str);
