@@ -18,9 +18,8 @@ const cardRouter = require('./routes/cardRouter');
 const userRouter = require('./routes/userRouter');
 const pattern = require('./routes/pattern');
 
-const app = express();
-
 const { PORT = 3000 } = process.env;
+const app = express();
 
 const limiter = userLimit({
   windowMs: 15 * 60 * 1000,
