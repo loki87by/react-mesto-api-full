@@ -31,18 +31,6 @@ module.exports.getAllCards = (req, res) => {
 };
 
 // **удаление карточки
-/* module.exports.deleteCard = (req, res, next) => {
-  const owner = req.user._id;
-  Card.findByIdAndRemove({ _id: req.params.id, owner })
-    .then((card) => {
-      if (!card) {
-      throw new NotFoundError('Такая карточка отсутствует в базе либо у вас нет прав на удаление');
-      }
-      res.send(card);
-    })
-    .catch((err) => next(err));
-}; */
-
 module.exports.deleteCard = (req, res, next) => {
   Card.findById(req.params._id)
     .orFail()
@@ -64,6 +52,7 @@ module.exports.deleteCard = (req, res, next) => {
 
 // **дополнительные действия с карточками
 // *лайк
+/*
 module.exports.likeCard = (req, res, next) => {
   const { id } = req.params;
   return Card.findOneAndUpdate({ id },
@@ -94,8 +83,8 @@ module.exports.dislikeCard = (req, res, next) => {
     })
     .catch((err) => next(err));
 };
-
-/* module.exports.likeCard = (req, res, next) => {
+*/
+module.exports.likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params._id,
     {
@@ -116,7 +105,7 @@ module.exports.dislikeCard = (req, res, next) => {
         throw new NotFoundError('Нет карточки с таким id');
       }
       if (err.name === 'ValidationError') {
-        throw new RequestError('Указаны некорректные данные при создании карточки');
+        throw new BadRequestError('Указаны некорректные данные при создании карточки');
       }
     })
     .catch(next);
@@ -143,10 +132,10 @@ module.exports.dislikeCard = (req, res, next) => {
         throw new NotFoundError('Нет карточки с таким id');
       }
       if (err.name === 'ValidationError') {
-        throw new RequestError(
+        throw new BadRequestError(
           'Указаны некорректные данные при создании карточки',
         );
       }
     })
     .catch(next);
-}; */
+};
