@@ -2,7 +2,7 @@
 /* eslint-disable import/newline-after-import */
 /* eslint-disable prefer-arrow-callback */
 // **импорты
-require('dotenv').config();
+// require('dotenv').config();
 const express = require('express');
 const userLimit = require('express-rate-limit');
 // eslint-disable-next-line import/no-extraneous-dependencies
