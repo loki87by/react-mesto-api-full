@@ -54,7 +54,7 @@ module.exports.deleteCard = (req, res, next) => {
 // *лайк
 module.exports.likeCard = (req, res, next) => {
   const { id } = req.params;
-  return Card.findBYIdAndUpdate({ id },
+  return Card.findByIdAndUpdate({ id },
     { $addToSet: { likes: req.user._id } },
     { new: true })
     .orFail(new Error('NotValidId'))
@@ -75,7 +75,7 @@ module.exports.likeCard = (req, res, next) => {
 // *дизлайк
 module.exports.dislikeCard = (req, res, next) => {
   const { id } = req.params;
-  return Card.findOneAndUpdate({ id },
+  return Card.findByIdAndUpdate({ id },
     { $pull: { likes: req.user._id } },
     { new: true })
     .orFail(new Error('NotValidId'))
