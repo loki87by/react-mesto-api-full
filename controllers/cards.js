@@ -54,17 +54,22 @@ module.exports.deleteCard = (req, res, next) => {
 // *лайк
 module.exports.likeCard = (req, res, next) => {
   const { id } = req.params;
-  return Card.findOneAndUpdate({ id },
+  return Card.findBYIdAndUpdate({ id },
     { $addToSet: { likes: req.user._id } },
     { new: true })
-    .then((card) => {
-      if (!card) {
-        throw new NotFoundError('Неверный запрос');
-      } else {
-        res.send({ data: card });
+    .orFail(new Error('NotValidId'))
+    .then((likes) => res.send({
+      data: likes,
+    }))
+    .catch((err) => {
+      if (err.message === 'NotValidId') {
+        throw new NotFoundError('Нет карточки с таким id');
+      }
+      if (err.name === 'ValidationError') {
+        throw new BadRequestError('Указаны некорректные данные при создании карточки');
       }
     })
-    .catch((err) => next(err));
+    .catch(next);
 };
 
 // *дизлайк
@@ -73,12 +78,17 @@ module.exports.dislikeCard = (req, res, next) => {
   return Card.findOneAndUpdate({ id },
     { $pull: { likes: req.user._id } },
     { new: true })
-    .then((card) => {
-      if (!card) {
-        throw new NotFoundError('Неверный запрос');
-      } else {
-        res.send({ data: card });
+    .orFail(new Error('NotValidId'))
+    .then((likes) => res.send({
+      data: likes,
+    }))
+    .catch((err) => {
+      if (err.message === 'NotValidId') {
+        throw new NotFoundError('Нет карточки с таким id');
+      }
+      if (err.name === 'ValidationError') {
+        throw new BadRequestError('Указаны некорректные данные при создании карточки');
       }
     })
-    .catch((err) => next(err));
+    .catch(next);
 };
