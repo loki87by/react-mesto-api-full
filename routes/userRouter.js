@@ -1,8 +1,16 @@
 /* eslint-disable object-curly-newline */
 // **импорты
 const userRouter = require('express').Router();
-const { celebrate, Joi } = require('celebrate');
+const { celebrate, Joi, CelebrateErr } = require('celebrate');
+const validator = require('validator');
 const { getUsers, getMyInfo, getCurrentUser, updateUser, updateAvatar } = require('../controllers/users');
+
+const validateUrl = (value) => {
+  if (!validator.isURL(value)) {
+    throw new CelebrateErr('Введите корректный URL');
+  }
+  return value;
+};
 
 // **роуты
 userRouter.get('/', celebrate({
@@ -42,7 +50,7 @@ userRouter.patch('/me/avatar', celebrate({
   }).unknown(true),
   body: Joi.object().keys({
     // eslint-disable-next-line no-useless-escape
-    avatar: Joi.string().pattern(new RegExp('https?:\/{2}\\S+\\.(jpg|png|gif|svg)')).required(),
+    avatar: Joi.string().custom(validateUrl).required(),
   }),
 }), updateAvatar);
 

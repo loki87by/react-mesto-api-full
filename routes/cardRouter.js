@@ -1,8 +1,16 @@
 /* eslint-disable object-curly-newline */
 // **импорты
 const cardRouter = require('express').Router();
-const { celebrate, Joi } = require('celebrate');
+const { celebrate, Joi, CelebrateErr } = require('celebrate');
+const validator = require('validator');
 const { createCard, getAllCards, deleteCard, likeCard, dislikeCard } = require('../controllers/cards');
+
+const validateUrl = (value) => {
+  if (!validator.isURL(value)) {
+    throw new CelebrateErr('Введите корректный URL');
+  }
+  return value;
+};
 
 // **роуты
 cardRouter.post('/', celebrate({
@@ -12,7 +20,7 @@ cardRouter.post('/', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
     // eslint-disable-next-line no-useless-escape
-    link: Joi.string().pattern(new RegExp('https?:\/{2}\\S+\\.(jpg|png|gif|svg)')).required(),
+    link: Joi.string().custom(validateUrl).required(),
   }),
 }), createCard);
 
@@ -27,7 +35,7 @@ cardRouter.delete('/:id', celebrate({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
   params: Joi.object().keys({
-    id: Joi.string().alphanum().length(24),
+    id: Joi.string().alphanum().length(24).hex(),
   }).unknown(true),
 }), deleteCard);
 
@@ -36,7 +44,7 @@ cardRouter.put('/:cardId/likes', celebrate({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
   params: Joi.object().keys({
-    id: Joi.string().alphanum().length(24),
+    id: Joi.string().alphanum().length(24).hex(),
   }).unknown(true),
 }), likeCard);
 
@@ -45,7 +53,7 @@ cardRouter.delete('/:cardId/likes', celebrate({
     authorization: Joi.string().pattern(new RegExp('^Bearer +')),
   }).unknown(true),
   params: Joi.object().keys({
-    id: Joi.string().alphanum().length(24),
+    id: Joi.string().alphanum().length(24).hex(),
   }).unknown(true),
 }), dislikeCard);
 
