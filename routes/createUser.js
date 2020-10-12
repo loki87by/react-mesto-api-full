@@ -1,8 +1,16 @@
 /* eslint-disable linebreak-style */
 // **импорт
 const createUserRouter = require('express').Router();
-const { celebrate, Joi } = require('celebrate');
+const { celebrate, Joi, CelebrateErr } = require('celebrate');
+const validator = require('validator');
 const { createUser } = require('../controllers/users');
+
+const validateUrl = (value) => {
+  if (!validator.isURL(value)) {
+    throw new CelebrateErr('Введите корректный URL');
+  }
+  return value;
+};
 
 // **функционал
 // eslint-disable-next-line arrow-body-style
@@ -13,7 +21,7 @@ createUserRouter.post('/', celebrate({
     name: Joi.string().required().min(2).max(30),
     about: Joi.string().required().min(2).max(30),
     // eslint-disable-next-line no-useless-escape
-    avatar: Joi.string().pattern(new RegExp('https?:\/{2}\\S+\\.(jpg|png|gif|svg)')).required(),
+    avatar: Joi.string().custom(validateUrl).required(),
   }),
 }), createUser);
 // **экспорт
