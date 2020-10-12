@@ -63,8 +63,7 @@ userSchema.statics.findUserByCredentials = function (email, password) {
           }
           return user;
         });
-    },
-    { versionKey: false });
+    });
 };
 
 // **экспорт
