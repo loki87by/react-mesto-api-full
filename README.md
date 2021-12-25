@@ -1,6 +1,18 @@
 # react-mesto-api-full
-Репозиторий для полноценного API проекта [Mesto.](https://loki87by.github.io/react-mesto-auth) 
+Репозиторий для полноценного API проекта [Mesto.](https://github.com/loki87by/react-mesto-auth) 
+Технологии используемые в проекте:
 
-домен lokis.students.nomoreparties.co (www.lokis.students.nomoreparties.co)
+* Переменные окружения 
+* Статические и динамические роуты 
+* Мидлвэры 
+* Централизованная обработка ошибок 
+* Соблюдение принципов REST 
+* Парсер данных 
+* Защита CORS 
+* Ограничение повторных запросов 
+* Mongo DB 
+* и другие
+
+домен [lokis.students.nomoreparties.co](www.lokis.students.nomoreparties.co) 
 публичный IP-адрес сервера: 130.193.49.220 
 ### (возможно на момент проверки функционирование будет прекращено, т.к. проект учебный и виртуальная машина не будет проплачиваться)
